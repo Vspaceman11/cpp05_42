@@ -47,3 +47,13 @@ void Bureaucrat::decrementGrade()
 {
 	_grade++;
 }
+
+const char* Bureaucrat::GradeTooHighException::what() const noexcept
+{
+	return "Grade is too high! Max value is 1!";
+}
+
+const char* Bureaucrat::GradeTooLowException::what() const noexcept
+{
+	return "Grade is too low! Minimum value is 150"
+}
