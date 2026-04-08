@@ -38,8 +38,8 @@ Bureaucrat::~Bureaucrat()
 	std::cout << "Destructor Bureaucrat called" << std::endl;
 }
 
-std::string	Bureaucrat::getName() const {return _name;}
-int			Bureaucrat::getGrade() const {return _grade;}
+const std::string	Bureaucrat::getName() const {return _name;}
+int					Bureaucrat::getGrade() const {return _grade;}
 
 void Bureaucrat::incrementGrade()
 {
