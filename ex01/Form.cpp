@@ -1,4 +1,5 @@
 #include "Form.hpp"
+#include "Bureaucrat.hpp"
 
 Form::Form() :
 			_name("Default Form"),
@@ -14,10 +15,10 @@ Form::Form(const std::string& name, const int gradeToSign, const int gradeToExec
 			_gradeToSign(gradeToSign),
 			_gradeToExecute(gradeToExecute)
 {
-	if (gradeToSign < 1 || gradeToSign < 1)
-		throw GradeTooHighException();
-	else if (gradeToExecute > 150 || gradeToExecute > 150)
-		throw GradeTooLowException();
+	if (_gradeToSign < 1 || _gradeToExecute < 1)
+		throw Form::GradeTooHighException();
+	else if (_gradeToSign > 150 || _gradeToExecute > 150)
+		throw Form::GradeTooLowException();
 	std::cout << "Parametrized Constructor Form " << _name << " called" << std::endl;
 }
 
@@ -46,8 +47,9 @@ Form::~Form()
 }
 
 const std::string	Form::getName() const {return _name;}
-const int			Form::getGradeToSign() const {return _gradeToSign;}
-const int			Form::getGradeToExecute() const {return _gradeToExecute;}
+int					Form::getGradeToSign() const {return _gradeToSign;}
+int					Form::getGradeToExecute() const {return _gradeToExecute;}
+bool				Form::getIsSigned() const {return _isSigned;}
 
 void				Form::beSigned(const Bureaucrat& b)
 {
@@ -56,7 +58,7 @@ void				Form::beSigned(const Bureaucrat& b)
 		_isSigned = true;
 	}
 	else
-		throw GradeTooLowException();
+		throw Form::GradeTooLowException();
 }
 
 const char* Form::GradeTooHighException::what() const noexcept
@@ -69,9 +71,10 @@ const char* Form::GradeTooLowException::what() const noexcept
 	return "Grade is too low! Minimum value is 150";
 }
 
-std::ostream& operator<<(std::ostream& os, const Form& Form)
+std::ostream& operator<<(std::ostream& os, const Form& form)
 {
-	os << Form.getName() << ", signed status" << Form.getIsSigned() << ", grade to sign " << Form.getGradeToSign()
-		<< ", grade to execute " << Form.getGradeToExecute() << ".";
+	os << form.getName() << ", signed status" << form.getIsSigned()
+		<< ", grade to sign " << form.getGradeToSign()
+		<< ", grade to execute " << form.getGradeToExecute() << ".";
 	return os;
 }

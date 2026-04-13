@@ -1,39 +1,46 @@
 #include "Bureaucrat.hpp"
+#include "Form.hpp"
 
 int main() {
-	std::cout << "--- Test 1: Valid Bureaucrat ---" << std::endl;
+	std::cout << "--- Test 1: Successful Signing ---" << std::endl;
 	try {
-		Bureaucrat bob("Bob", 42);
-		std::cout << bob << std::endl;
-		bob.incrementGrade();
-		std::cout << "After increment: " << bob << std::endl;
-		bob.decrementGrade();
-		std::cout << "After decrement: " << bob << std::endl;
+		Bureaucrat chief("Chief", 2);
+		Form contract("Top Secret Contract", 5, 10);
+
+		std::cout << chief << std::endl;
+		std::cout << contract << std::endl;
+
+		chief.signForm(contract);
+		std::cout << contract << std::endl; // Must be signed True
 	} catch (std::exception &e) {
-		std::cerr << "Exception caught: " << e.what() << std::endl;
+		std::cout << "Unexpected Exception: " << e.what() << std::endl;
 	}
 
-	std::cout << "\n--- Test 2: Grade Too High at Creation ---" << std::endl;
+	std::cout << "\n--- Test 2: Grade Too Low to Sign ---" << std::endl;
 	try {
-		Bureaucrat alice("Alice", 0);
+		Bureaucrat intern("Intern", 150);
+		Form highLevelForm("High Level Form", 1, 1);
+
+		std::cout << intern << std::endl;
+		std::cout << highLevelForm << std::endl;
+
+		intern.signForm(highLevelForm);
 	} catch (std::exception &e) {
-		std::cerr << "Exception caught: " << e.what() << std::endl;
+		std::cout << "Unexpected Exception: " << e.what() << std::endl;
 	}
 
-	std::cout << "\n--- Test 3: Grade Too Low at Creation ---" << std::endl;
+	std::cout << "\n--- Test 3: Invalid Form Creation (Grade Too High) ---" << std::endl;
 	try {
-		Bureaucrat john("John", 151);
+		Form impossibleForm("Impossible", 0, 50);
 	} catch (std::exception &e) {
-		std::cerr << "Exception caught: " << e.what() << std::endl;
+		std::cout << "Caught expected exception: " << e.what() << std::endl;
 	}
 
-	std::cout << "\n--- Test 4: Incrementing beyond limits ---" << std::endl;
+	std::cout << "\n--- Test 4: Invalid Form Creation (Grade Too Low) ---" << std::endl;
 	try {
-		Bureaucrat boss("Boss", 1);
-		std::cout << boss << std::endl;
-		boss.incrementGrade();
+		Form trashForm("Trash", 151, 150);
 	} catch (std::exception &e) {
-		std::cerr << "Exception caught: " << e.what() << std::endl;
+		std::cout << "Caught expected exception: " << e.what() << std::endl;
 	}
 
 	return 0;
