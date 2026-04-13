@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
 #include <exception>
+#include "Bureaucrat.hpp"
 class Bureaucrat;
 
 class Form
@@ -17,6 +18,7 @@ class Form
 		const int			getGradeToSign() const;
 		const int			getGradeToExecute() const;
 		void				beSigned(const Bureaucrat& b);
+
 		class GradeTooHighException : public std::exception
 		{
 			public:
