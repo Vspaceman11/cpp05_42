@@ -1,46 +1,65 @@
 #include "Bureaucrat.hpp"
-#include "Form.hpp"
+#include "ShrubberyCreationForm.hpp"
+#include "RobotomyRequestForm.hpp"
+#include "PresidentialPardonForm.hpp"
+#include <ctime>
 
-int main() {
-	std::cout << "--- Test 1: Successful Signing ---" << std::endl;
+int main()
+{
+	std::srand(std::time(NULL));
+
+	std::cout << "===== TEST 1: The High Council =====" << std::endl;
 	try {
-		Bureaucrat chief("Chief", 2);
-		Form contract("Top Secret Contract", 5, 10);
+		Bureaucrat president("Zaphod", 1);
+		ShrubberyCreationForm f1("Garden");
+		RobotomyRequestForm f2("Bender");
+		PresidentialPardonForm f3("Arthur Dent");
 
-		std::cout << chief << std::endl;
-		std::cout << contract << std::endl;
+		std::cout << f1 << std::endl;
+		std::cout << f2 << std::endl;
+		std::cout << f3 << std::endl;
 
-		chief.signForm(contract);
-		std::cout << contract << std::endl; // Must be signed True
+		president.signForm(f1);
+		president.signForm(f2);
+		president.signForm(f3);
+
+		president.executeForm(f1);
+		president.executeForm(f2);
+		president.executeForm(f3);
 	} catch (std::exception &e) {
-		std::cout << "Unexpected Exception: " << e.what() << std::endl;
+		std::cerr << "Exception: " << e.what() << std::endl;
 	}
 
-	std::cout << "\n--- Test 2: Grade Too Low to Sign ---" << std::endl;
+	std::cout << "\n===== TEST 2: The Intern Struggle =====" << std::endl;
 	try {
-		Bureaucrat intern("Intern", 150);
-		Form highLevelForm("High Level Form", 1, 1);
+		Bureaucrat intern("Poor Guy", 150);
+		RobotomyRequestForm f2("Wall-E");
 
-		std::cout << intern << std::endl;
-		std::cout << highLevelForm << std::endl;
-
-		intern.signForm(highLevelForm);
+		intern.signForm(f2);
+		intern.executeForm(f2);
 	} catch (std::exception &e) {
-		std::cout << "Unexpected Exception: " << e.what() << std::endl;
+		std::cerr << "Exception: " << e.what() << std::endl;
 	}
 
-	std::cout << "\n--- Test 3: Invalid Form Creation (Grade Too High) ---" << std::endl;
+	std::cout << "\n===== TEST 3: Signed but weak Bureaucrat =====" << std::endl;
 	try {
-		Form impossibleForm("Impossible", 0, 50);
+		Bureaucrat middleMan("Middle", 70);
+		RobotomyRequestForm f2("R2D2");
+
+		middleMan.signForm(f2);
+		middleMan.executeForm(f2);
 	} catch (std::exception &e) {
-		std::cout << "Caught expected exception: " << e.what() << std::endl;
+		std::cerr << "Exception: " << e.what() << std::endl;
 	}
 
-	std::cout << "\n--- Test 4: Invalid Form Creation (Grade Too Low) ---" << std::endl;
+	std::cout << "\n===== TEST 4: Execution without Sign =====" << std::endl;
 	try {
-		Form trashForm("Trash", 151, 150);
+		Bureaucrat boss("Boss", 5);
+		PresidentialPardonForm f3("Marvin");
+
+		boss.executeForm(f3);
 	} catch (std::exception &e) {
-		std::cout << "Caught expected exception: " << e.what() << std::endl;
+		std::cerr << "Exception: " << e.what() << std::endl;
 	}
 
 	return 0;
